@@ -86,9 +86,12 @@ public class VentanaPrincipal extends JFrame
      */
     public void mostrarVentanaMapa( )
     {
-        // TODO completar mostrarVentanaMapa
+        if( ventanaMapa == null || !ventanaMapa.isVisible() )
+        {	
+        	ventanaMapa = new VentanaMapa(this, mundo.getRestaurantes(true));
+            ventanaMapa.setVisible(true);
+        }
     }
-
     /**
      * Agrega un nuevo restaurante al diario y actualiza la información que se muestra
      * @param nombre El nombre del nuevo restaurante
@@ -99,7 +102,11 @@ public class VentanaPrincipal extends JFrame
      */
     public void agregarRestaurante( String nombre, int calificacion, int x, int y, boolean visitado )
     {
-        // TODO completar agregarRestaurante
+        Restaurante nuevo = new Restaurante(nombre, calificacion, x, y, visitado);
+
+        mundo.agregarRestaurante(nuevo);
+
+        actualizarRestaurantes();
     }
 
     /**
@@ -118,10 +125,18 @@ public class VentanaPrincipal extends JFrame
      * Actualiza los restaurantes que se muestran en la lista y el restaurante seleccionado del cual se muestran los detalles
      */
     private void actualizarRestaurantes( )
+
     {
         List<Restaurante> todos = this.mundo.getRestaurantes( true );
-        // TODO completar actualizarRestaurantes
+
+        pLista.actualizarRestaurantes(todos);
+
+        if( !todos.isEmpty() )
+        {
+            pDetalles.actualizarRestaurante(todos.get(0));
+        }
     }
+
 
     /**
      * Cambia el restaurante actualmente seleccionado (y mostrado) por el que se pasa por parámetro
